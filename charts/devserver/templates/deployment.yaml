@@ -34,7 +34,7 @@ spec:
       volumes:
         - name: {{ .name }}-public-key
           configMap:
-            name: public-key
+            name: {{ .name }}-public-key
         - name: default-files
           configMap:
             name: default-files

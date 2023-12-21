@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: public-key
+  name: {{ .name }}-public-key
   labels:
-    name: public-key
+    name: {{ .name }}-public-key
 data:
   {{ .name }}.pub: |-
     {{ .public_key }}
