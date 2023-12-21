@@ -28,6 +28,8 @@ data:
        echo "Copying .bashrc"
       cp /var/default_files/.bashrc /root/.bashrc
     fi
+    ls -la /root
+    ls -la /root/.ssh
   {{- end }}
   .profile: |-
     # ~/.profile: executed by Bourne-compatible login shells.
