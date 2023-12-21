@@ -53,7 +53,7 @@ spec:
             - name: {{ .name }}-public-key
               mountPath: /var/keys/{{ .name }}.pub
             - name: default-files
-              mounthPath: /var/default_files/
+              mountPath: /var/default_files/
               defaultMode: 0777
       containers:
         - name: {{ $.Chart.Name }}
