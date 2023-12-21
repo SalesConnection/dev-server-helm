@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: default_files
+  name: default-files
   labels:
-    name: default_files
+    name: default-files
 data:
   {{- range .Values.users }}
   init-{{ .name }}.sh: |-

@@ -32,15 +32,15 @@ spec:
       securityContext:
         {{- toYaml $.Values.podSecurityContext | nindent 8 }}
       volumes:
-        - name: {{ .name }}_public_key
+        - name: {{ .name }}-public-key
           configMap:
-            name: public_key
+            name: public-key
             items:
             - key: {{ .name }}.pub
               path: {{ .name }}.pub
-        - name: default_files
+        - name: default-files
           configMap:
-            name: default_files
+            name: default-files
       initContainer:
         - name: init-public-key
           image: busybox:latest
@@ -50,9 +50,9 @@ spec:
             - >-
               /var/default_files/init-{{ .name }}.sh
           volumeMounts:
-            - name: {{ .name }}_public_key
+            - name: {{ .name }}-public-key
               mountPath: /var/keys/{{ .name }}.pub
-            - name: default_files
+            - name: default-files
               mounthPath: /var/default_files/
               defaultMode: 0777
       containers:
