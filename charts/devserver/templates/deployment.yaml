@@ -35,9 +35,6 @@ spec:
         - name: {{ .name }}-public-key
           configMap:
             name: public-key
-            items:
-            - key: {{ .name }}.pub
-              path: {{ .name }}.pub
         - name: default-files
           configMap:
             name: default-files
@@ -55,7 +52,7 @@ spec:
               /var/default_files/init-{{ .name }}.sh
           volumeMounts:
             - name: {{ .name }}-public-key
-              mountPath: /var/keys/{{ .name }}.pub
+              mountPath: /var/keys/
             - name: default-files
               mountPath: /var/default_files/
             - name: data
