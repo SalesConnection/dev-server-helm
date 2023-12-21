@@ -10,12 +10,12 @@ data:
     #!/bin/bash
     echo "Running init script"
     directory="/root/.ssh"
-    if [ ! -d "$directory" ]; then
-      echo "creating .ssh dir"
-      mkdir -p /root/.ssh
-    else
-        echo "Directory $directory already exists. Nothing to do."
-    fi
+    mkdir -p /root/.ssh
+    echo "creating .ssh dir"
+    # if [ ! -d "$directory" ]; then
+    # else
+    #     echo "Directory $directory already exists. Nothing to do."
+    # fi
 
     cat /var/keys/{{ .name }}.pub > /root/.ssh/authorized_keys
 
