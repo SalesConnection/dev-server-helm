@@ -41,6 +41,9 @@ spec:
         - name: default-files
           configMap:
             name: default-files
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .name }}-ebs
       initContainers:
         - name: init-public-key
           image: busybox:latest
@@ -55,6 +58,8 @@ spec:
             - name: default-files
               mountPath: /var/default_files/
               defaultMode: 0777
+            - name: data
+              mountPath: /root
       containers:
         - name: {{ $.Chart.Name }}
           securityContext:

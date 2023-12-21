@@ -8,9 +8,10 @@ data:
   {{- range .Values.users }}
   init-{{ .name }}.sh: |-
     #!/bin/bash
-
+    echo "Running init script"
     directory="/root/.ssh"
     if [ ! -d "$directory" ]; then
+      echo "creating .ssh dir"
       mkdir -p /root/.ssh
       cat /var/keys/{{ .name }}.pub > authorized_keys
     else
@@ -18,10 +19,12 @@ data:
     fi
 
     if [ ! -f /root/.profile ]
+      echo "Copying .profile"
       cp /var/default_files/.profile /root/.profile
     fi
 
     if [ ! -f /root/.bashrc ]
+       echo "Copying .bashrc"
       cp /var/default_files/.bashrc /root/.bashrc
     fi
   {{- end }}

@@ -1,0 +1,13 @@
+{{- range .Values.users }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name }}-ebs
+spec: 
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp2
+  resources: 
+    requests:
+      storage: {{ .storage | default "30Gi" }}
+{{- end }}
