@@ -13,17 +13,18 @@ data:
     if [ ! -d "$directory" ]; then
       echo "creating .ssh dir"
       mkdir -p /root/.ssh
-      cat /var/keys/{{ .name }}.pub > authorized_keys
     else
         echo "Directory $directory already exists. Nothing to do."
     fi
 
-    if [ ! -f /root/.profile ]
+    cat /var/keys/{{ .name }}.pub > /root/.ssh/authorized_keys
+
+    if [ ! -f /root/.profile ]; then
       echo "Copying .profile"
       cp /var/default_files/.profile /root/.profile
     fi
 
-    if [ ! -f /root/.bashrc ]
+    if [ ! -f /root/.bashrc ]; then
        echo "Copying .bashrc"
       cp /var/default_files/.bashrc /root/.bashrc
     fi
