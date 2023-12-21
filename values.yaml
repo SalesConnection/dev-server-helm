@@ -1,0 +1,72 @@
+# Default values for devserver.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+users:
+  - name: adha
+    storage: 30Gi
+    public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC9n01VN1toeMA0WZq6LCiltFBm3kasUiFGasE4uHc5BlbJJ2xuHMoA6OZb0ErNbYZFH3bnwyCJK7ecPPnkKUjqODiRnmWiW3ejRwxemZ2qFRWPPNxdWh6E6Q6idOj9+1E96wHZa1wfmw5Y1ZIB6YEhA8DxIe8o7nk0+Vgbp7y6jDWmk8Fb+T5/wnofUnZzuDDGHRUUbinIsdf3rWtyMyAqn/ZljmklFcN8OcQEfbXfm248k9TiOTBvic4xhPWpRk2TV6wlUfg92lw2hHPoFrjKnFBz2+93zxQ0chxBf14Pn+2iyb0O+/wIWIrRITE60dA0JuKIebuSluEHFWAauTGTCHLWsYpGUyKvnXTTLco8D2EmjoopvFJ93+QH/3xkBqXHK5NRcdGdmh7oNUogUesbhHEk2RK2JA0AFeC5CwBgt8IEca2dngrE2edYFZ0g8WwO0FKlXsaeyNtziRk1lg82H3dDovblcHp+PrXA8JcgbOyM2qQk/KI72fsBvQZXL68= adha@ip-10-0-2-188
+
+master_key:
+  - name: adha
+    public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC9n01VN1toeMA0WZq6LCiltFBm3kasUiFGasE4uHc5BlbJJ2xuHMoA6OZb0ErNbYZFH3bnwyCJK7ecPPnkKUjqODiRnmWiW3ejRwxemZ2qFRWPPNxdWh6E6Q6idOj9+1E96wHZa1wfmw5Y1ZIB6YEhA8DxIe8o7nk0+Vgbp7y6jDWmk8Fb+T5/wnofUnZzuDDGHRUUbinIsdf3rWtyMyAqn/ZljmklFcN8OcQEfbXfm248k9TiOTBvic4xhPWpRk2TV6wlUfg92lw2hHPoFrjKnFBz2+93zxQ0chxBf14Pn+2iyb0O+/wIWIrRITE60dA0JuKIebuSluEHFWAauTGTCHLWsYpGUyKvnXTTLco8D2EmjoopvFJ93+QH/3xkBqXHK5NRcdGdmh7oNUogUesbhHEk2RK2JA0AFeC5CwBgt8IEca2dngrE2edYFZ0g8WwO0FKlXsaeyNtziRk1lg82H3dDovblcHp+PrXA8JcgbOyM2qQk/KI72fsBvQZXL68= adha@ip-10-0-2-188
+
+replicaCount: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: "sc-staging"
+
+podAnnotations: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

@@ -1,0 +1,46 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "devserver.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+
+{{- range $user := .Values.users }}
+{{- $userName := .name -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "devserver.fullname" $ }}-{{ $user.name }}
+  labels:
+    {{- include "devserver.labels" $ | nindent 4 }}
+    app: devserver-{{ .name }}
+  {{- with $.Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: "nginx"
+  {{- if $.Values.ingress.tls }}
+  tls:
+    {{- range $.Values.ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - "{{ $user.name }}.{{ . }}"
+        {{- end }}
+      secretName: {{ .secretName }}-{{ $user.name }}
+    {{- end }}
+  {{- end }}
+  rules:
+    {{- range $.Values.ingress.hosts }}
+    - host: "{{ $user.name }}.{{ .host }}"
+      http:
+        paths:
+          {{- range .paths }}
+          - path: {{ .path }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ include "devserver.fullname" $ }}-{{ $user.name }}
+                port:
+                  number: {{ $svcPort }}
+          {{- end }}
+    {{- end }}
+{{- end }}
+{{- end }}

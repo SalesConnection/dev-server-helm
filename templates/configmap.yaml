@@ -1,0 +1,14 @@
+{{- range .Values.users }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: public_key
+  labels:
+    name: public_key
+data:
+  {{ .name }}.pub: |-
+    {{ .public_key }}
+    {{- range $.Values.master_key }}
+    {{ .public_key }}
+    {{- end }}
+{{- end }}
