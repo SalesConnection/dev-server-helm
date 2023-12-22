@@ -80,7 +80,8 @@ spec:
             - name: data
               mountPath: /root
             - name: nginx
-              mountPath: /etc/nginx/
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
           # livenessProbe:
           #   httpGet:
           #     path: /
