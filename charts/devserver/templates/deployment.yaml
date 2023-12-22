@@ -42,6 +42,12 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: {{ .name }}-ebs
+        - name: nginx
+          configMap:
+            name: default-files
+            items:
+              - key: nginx.conf
+                path: nginx.conf
       initContainers:
         - name: init-public-key
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag | default $.Chart.AppVersion }}"
@@ -73,6 +79,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /root
+            - name: nginx
+              mountPath: /etc/nginx/nginx.conf
           # livenessProbe:
           #   httpGet:
           #     path: /
