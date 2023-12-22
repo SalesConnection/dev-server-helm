@@ -17,12 +17,8 @@ data:
     #     echo "Directory $directory already exists. Nothing to do."
     # fi
 
-    # cat /var/keys/{{ .name }}.pub > /root/.ssh/authorized_keys
-    echo "{{ .public_key }}" > /root/.ssh/authorized_keys
-    {{- range $.Values.master_key }}
-    echo "{{ .public_key }}" >> /root/.ssh/authorized_keys
-    {{- end }}
-    echo "Host git-codecommit.*.amazonaws.com\n User {{ .codecommit | default "empty" }}" > /root/.ssh/config
+    cat /var/keys/{{ .name }}.pub > /root/.ssh/authorized_keys
+    echo -e "Host git-codecommit.*.amazonaws.com\n User {{ .codecommit | default "empty" }}" > /root/.ssh/config
 
     if [ ! -f /root/.profile ]; then
       echo "Copying .profile"
