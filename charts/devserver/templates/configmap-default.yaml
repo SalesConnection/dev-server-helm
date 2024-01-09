@@ -29,6 +29,10 @@ data:
        echo "Copying .bashrc"
       cp /var/default_files/.bashrc /root/.bashrc
     fi
+    if [ ! -f /root/.k8s_env ]; then
+       echo "Copying .k8s_env"
+      cp /var/default_files/.k8s_env /root/.k8s_env
+    fi
     ls -la /root
     ls -la /root/.ssh
   {{- end }}
@@ -135,6 +139,9 @@ data:
     if [ -f ~/.bash_aliases ]; then
         . ~/.bash_aliases
     fi
+    if [ -f ~/.k8s_env ]; then
+        . ~/.k8s_env
+    fi
 
     # enable programmable completion features (you don't need to enable
     # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -143,6 +150,13 @@ data:
     #    . /etc/bash_completion
     #fi
 
+  .k8s_env: |-
+    export AWS_DEFAULT_REGION=ap-southeast-1
+    export AWS_REGION=ap-southeast-1
+    export AWS_ROLE_ARN=arn:aws:iam::672944514151:role/sc-staging
+    export AWS_STS_REGIONAL_ENDPOINTS=regional
+    export AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
+  
   nginx.conf: |-
     user root;
     worker_processes  auto;
