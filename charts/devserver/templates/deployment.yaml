@@ -79,9 +79,9 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /root
-            - name: nginx
-              mountPath: /etc/nginx/nginx.conf
-              subPath: nginx.conf
+            # - name: nginx
+            #   mountPath: /etc/nginx/nginx.conf
+            #   subPath: nginx.conf
           # livenessProbe:
           #   httpGet:
           #     path: /
