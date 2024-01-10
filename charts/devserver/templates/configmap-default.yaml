@@ -29,10 +29,11 @@ data:
       echo "Copying .bashrc"
       cp /var/default_files/.bashrc /root/.bashrc
     fi
-    if [ ! -f /root/.k8s_env ]; then
-      echo "Copying .k8s_env"
-      cp /var/default_files/.k8s_env /root/.k8s_env
-    fi
+
+    rm -f /root/.k8s_env
+    echo "Copying .k8s_env"
+    cp /var/default_files/.k8s_env /root/.k8s_env
+
     if [ ! -f /root/clone.sh ]; then
       echo "Copying clone.sh"
       cp /var/default_files/clone.sh /root/clone.sh
@@ -49,10 +50,20 @@ data:
     if [ ! -d "$directory" ]; then
       cd /root/sc
       git clone -b live-k8s https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/salesconnection-php7.4.4-laravel7.3 .
+      cp .env.devserver .env
     else
         echo "Directory $directory already exists. Nothing to do."
     fi
 
+    # install
+    npm run login
+    composer install --no-interaction
+    npm install
+    npm run dev
+
+    mkdir -p /root/sc/uploads
+    chmod ugo+rw -R uploads
+    chmod ugo+rw -R vendor
     chmod ugo+rw -R public
     chmod ugo+rw -R storage
   .profile: |-
@@ -175,7 +186,8 @@ data:
     export AWS_ROLE_ARN=arn:aws:iam::672944514151:role/sc-staging
     export AWS_STS_REGIONAL_ENDPOINTS=regional
     export AWS_WEB_IDENTITY_TOKEN_FILE=/var/run/secrets/eks.amazonaws.com/serviceaccount/token
-  
+    export COMPOSER_ALLOW_SUPERUSER=1
+
   nginx.conf: |-
     user root;
     worker_processes  auto;
