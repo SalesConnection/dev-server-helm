@@ -34,11 +34,11 @@ data:
     echo "Copying .k8s_env"
     cp /var/default_files/.k8s_env /root/.k8s_env
 
-    if [ ! -f /root/clone.sh ]; then
-      echo "Copying clone.sh"
-      cp /var/default_files/clone.sh /root/clone.sh
-      chmod u+x /root/clone.sh
-    fi
+    rm -f /root/clone.sh
+    echo "Copying clone.sh"
+    cp /var/default_files/clone.sh /root/clone.sh
+    chmod u+x /root/clone.sh
+    
     ls -la /root
     ls -la /root/.ssh
   {{- end }}
