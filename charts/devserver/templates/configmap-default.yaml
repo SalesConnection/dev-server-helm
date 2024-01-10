@@ -49,7 +49,9 @@ data:
     if [ ! -d "$directory" ]; then
       mkdir -p /root/sc
       cd /root/sc
-      git clone -b live-k8s https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/salesconnection-php7.4.4-laravel7.3 .
+      touch ~/.ssh/known_hosts
+      ssh-keyscan -H git-codecommit.ap-southeast-1.amazonaws.com >> ~/.ssh/known_hosts
+      git clone -b live-k8s ssh://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/salesconnection-php7.4.4-laravel7.3 .
       cp .env.devserver .env
     else
         echo "Directory $directory already exists. Nothing to do."
