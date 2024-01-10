@@ -26,16 +26,35 @@ data:
     fi
 
     if [ ! -f /root/.bashrc ]; then
-       echo "Copying .bashrc"
+      echo "Copying .bashrc"
       cp /var/default_files/.bashrc /root/.bashrc
     fi
     if [ ! -f /root/.k8s_env ]; then
-       echo "Copying .k8s_env"
+      echo "Copying .k8s_env"
       cp /var/default_files/.k8s_env /root/.k8s_env
+    fi
+    if [ ! -f /root/clone.sh ]; then
+      echo "Copying clone.sh"
+      cp /var/default_files/clone.sh /root/clone.sh
+      chmod u+x /root/clone.sh
     fi
     ls -la /root
     ls -la /root/.ssh
   {{- end }}
+  clone.sh: |-
+    #!/bin/bash
+    directory="/root/sc"
+    mkdir -p /root/sc
+    echo "creating sc dir"
+    if [ ! -d "$directory" ]; then
+      cd /root/sc
+      git clone -b live-k8s https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/salesconnection-php7.4.4-laravel7.3 .
+    else
+        echo "Directory $directory already exists. Nothing to do."
+    fi
+
+    chmod ugo+rw -R public
+    chmod ugo+rw -R storage
   .profile: |-
     # ~/.profile: executed by Bourne-compatible login shells.
 
