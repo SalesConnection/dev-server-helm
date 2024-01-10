@@ -8,6 +8,9 @@ metadata:
 data:
   {{ .name }}.pub: |-
     {{ .public_key }}
+    {{- range .public_keys }}
+    {{ . }}
+    {{- end }}
     {{- range $.Values.master_key }}
     {{ .public_key }}
     {{- end }}
