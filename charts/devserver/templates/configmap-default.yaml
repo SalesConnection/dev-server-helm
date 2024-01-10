@@ -45,9 +45,9 @@ data:
   clone.sh: |-
     #!/bin/bash
     directory="/root/sc"
-    mkdir -p /root/sc
     echo "creating sc dir"
     if [ ! -d "$directory" ]; then
+      mkdir -p /root/sc
       cd /root/sc
       git clone -b live-k8s https://git-codecommit.ap-southeast-1.amazonaws.com/v1/repos/salesconnection-php7.4.4-laravel7.3 .
       cp .env.devserver .env
