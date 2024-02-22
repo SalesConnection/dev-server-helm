@@ -3,6 +3,16 @@ entries:
   devserver:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-02-22T07:09:32.514757871Z"
+    description: A Helm chart for Kubernetes
+    digest: b0b0352e9e69e9e3d26672af4644b0f6bec9cba4727bd8eb22cc94500e6ee323
+    name: devserver
+    type: application
+    urls:
+    - https://github.com/SalesConnection/dev-server-helm/releases/download/devserver-0.2.0-alpha.8/devserver-0.2.0-alpha.8.tgz
+    version: 0.2.0-alpha.8
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-02-22T07:03:11.815996095Z"
     description: A Helm chart for Kubernetes
     digest: a870cc9346a38b4b9c20133be37d2a2becaebe9505f0baa99f9680148632d3c7
@@ -281,4 +291,4 @@ entries:
     urls:
     - https://github.com/SalesConnection/dev-server-helm/releases/download/devserver-0.1.1/devserver-0.1.1.tgz
     version: 0.1.1
-generated: "2024-02-22T07:03:11.816429656Z"
+generated: "2024-02-22T07:09:32.51548059Z"
