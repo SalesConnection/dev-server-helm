@@ -12,13 +12,13 @@ spec:
       template:
         spec:
           serviceAccountName: kubectl-scaler
+          restartPolicy: OnFailure
           containers:
           - name: kubectl-scaler
             image: bitnami/kubectl:1.25.11
             command: ["/bin/sh", "-c"]
             args:
             - kubectl scale deployment -n {{ $.Release.Namespace }} {{ include "devserver.fullname" $ }}-{{ .name }} --replicas=1
-            restartPolicy: OnFailure
 {{- end }}
 ---
 apiVersion: batch/v1
@@ -32,13 +32,13 @@ spec:
       template:
         spec:
           serviceAccountName: kubectl-scaler
+          restartPolicy: OnFailure
           containers:
           - name: kubectl-scaler
             image: bitnami/kubectl:1.25.11
             command: ["/bin/sh", "-c"]
             args:
             - kubectl scale deployment -n {{ $.Release.Namespace }} {{ include "devserver.fullname" $ }}-{{ .name }} --replicas=0
-            restartPolicy: OnFailure
 {{- end }}
 ---
 apiVersion: v1
