@@ -20,4 +20,5 @@ spec:
   selector:
     {{- include "devserver.selectorLabels" $ | nindent 4 }}
     app: devserver-{{ .name }}
+---
 {{- end }}

@@ -32,7 +32,7 @@ spec:
     - host: "{{ $user.name }}.{{ .host }}"
       http:
         paths:
-          {{- range .paths }}
+          {{- range $user := .paths }}
           - path: {{ .path }}
             pathType: {{ .pathType }}
             backend:
@@ -42,5 +42,6 @@ spec:
                   number: {{ $svcPort }}
           {{- end }}
     {{- end }}
+---
 {{- end }}
 {{- end }}
