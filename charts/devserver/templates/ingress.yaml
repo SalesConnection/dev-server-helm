@@ -32,7 +32,7 @@ spec:
     - host: "{{ $user.name }}.{{ .host }}"
       http:
         paths:
-          {{- range $user := .paths }}
+          {{- range .paths }}
           - path: {{ .path }}
             pathType: {{ .pathType }}
             backend:

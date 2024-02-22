@@ -18,6 +18,7 @@ spec:
             command: ["/bin/sh", "-c"]
             args:
             - kubectl scale deployment -n {{ $.Release.Namespace }} {{ include "devserver.fullname" $ }}-{{ .name }} --replicas=1
+            restartPolicy: OnFailure
 {{- end }}
 ---
 apiVersion: batch/v1
@@ -37,6 +38,7 @@ spec:
             command: ["/bin/sh", "-c"]
             args:
             - kubectl scale deployment -n {{ $.Release.Namespace }} {{ include "devserver.fullname" $ }}-{{ .name }} --replicas=0
+            restartPolicy: OnFailure
 {{- end }}
 ---
 apiVersion: v1
