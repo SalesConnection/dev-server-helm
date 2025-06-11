@@ -23,6 +23,7 @@ spec:
       labels:
         {{- include "devserver.selectorLabels" $ | nindent 8 }}
         app: devserver-{{ .name }}
+        service: devserver
     spec:
       {{- with $.Values.imagePullSecrets }}
       imagePullSecrets:
@@ -105,5 +106,12 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      topologySpreadConstraints:
+        - maxSkew: {{ $.Values.topologySpread.maxSkew | default 2 }}
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              service: devserver
 ---
 {{- end }}

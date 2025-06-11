@@ -79,3 +79,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+topologySpread:
+  maxSkew: 2
