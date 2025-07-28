@@ -15,7 +15,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: kubectl-scaler
-            image: bitnami/kubectl:1.25.11
+            image: {{ $.Values.scaler.image }}:{{ $.Values.scaler.tag }}
             command: ["/bin/sh", "-c"]
             args:
             - kubectl scale deployment -n {{ $.Release.Namespace }} {{ include "devserver.fullname" $ }}-{{ .name }} --replicas=1
@@ -35,7 +35,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: kubectl-scaler
-            image: bitnami/kubectl:1.25.11
+            image: {{ $.Values.scaler.image }}:{{ $.Values.scaler.tag }}
             command: ["/bin/sh", "-c"]
             args:
             - kubectl scale deployment -n {{ $.Release.Namespace }} {{ include "devserver.fullname" $ }}-{{ .name }} --replicas=0
