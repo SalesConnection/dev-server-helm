@@ -42,7 +42,7 @@ spec:
             defaultMode: 0777
         - name: data
           persistentVolumeClaim:
-            claimName: {{ .name }}-ebs
+            claimName: {{ include "devserver.pvcName" (dict "root" $ "user" .) }}
         - name: nginx
           configMap:
             name: default-files

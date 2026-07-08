@@ -1,0 +1,18 @@
+{{- if and .Values.persistence.enabled (eq .Values.persistence.type "efs") .Values.persistence.efs.createStorageClass }}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.persistence.efs.storageClassName }}
+  labels:
+    {{- include "devserver.labels" . | nindent 4 }}
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: {{ required "persistence.efs.fileSystemId is required when persistence.type=efs" .Values.persistence.efs.fileSystemId | quote }}
+  directoryPerms: {{ .Values.persistence.efs.directoryPerms | quote }}
+  basePath: {{ .Values.persistence.efs.basePath | quote }}
+  subPathPattern: {{ .Values.persistence.efs.subPathPattern | quote }}
+  ensureUniqueDirectory: {{ .Values.persistence.efs.ensureUniqueDirectory | quote }}
+reclaimPolicy: {{ .Values.persistence.efs.reclaimPolicy }}
+volumeBindingMode: {{ .Values.persistence.efs.volumeBindingMode }}
+{{- end }}

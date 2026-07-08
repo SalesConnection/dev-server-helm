@@ -60,3 +60,43 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the PVC name for a user.
+For EFS dynamic provisioning, the PVC name is intentionally the user name so
+subPathPattern can create stable directories such as /dev/wang.
+*/}}
+{{- define "devserver.pvcName" -}}
+{{- $root := .root -}}
+{{- $user := .user -}}
+{{- if eq $root.Values.persistence.type "efs" -}}
+{{- $user.name -}}
+{{- else -}}
+{{- printf "%s-ebs" $user.name -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+Resolve the StorageClass used by user PVCs.
+*/}}
+{{- define "devserver.storageClassName" -}}
+{{- if eq .Values.persistence.type "efs" -}}
+{{- .Values.persistence.efs.storageClassName -}}
+{{- else -}}
+{{- .Values.persistence.ebs.storageClassName | default "gp2" -}}
+{{- end -}}
+{{- end }}
+
+{{/*
+Resolve the PVC storage request. EFS is elastic; Kubernetes still requires a
+request value, but EFS does not enforce that capacity.
+*/}}
+{{- define "devserver.storageRequest" -}}
+{{- $root := .root -}}
+{{- $user := .user -}}
+{{- if eq $root.Values.persistence.type "efs" -}}
+{{- $root.Values.persistence.efs.storageRequest | default "5Gi" -}}
+{{- else -}}
+{{- $user.storage | default $root.Values.persistence.ebs.storageRequest | default "30Gi" -}}
+{{- end -}}
+{{- end }}

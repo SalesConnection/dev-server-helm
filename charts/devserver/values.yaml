@@ -8,10 +8,30 @@ scaler:
 
 users:
   - name: adha
-    storage: 30Gi
     serviceAccount: dev-server #optional
-    codecommit: APKAZZLU6MRT37AFJI3Q
     public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC9n01VN1toeMA0WZq6LCiltFBm3kasUiFGasE4uHc5BlbJJ2xuHMoA6OZb0ErNbYZFH3bnwyCJK7ecPPnkKUjqODiRnmWiW3ejRwxemZ2qFRWPPNxdWh6E6Q6idOj9+1E96wHZa1wfmw5Y1ZIB6YEhA8DxIe8o7nk0+Vgbp7y6jDWmk8Fb+T5/wnofUnZzuDDGHRUUbinIsdf3rWtyMyAqn/ZljmklFcN8OcQEfbXfm248k9TiOTBvic4xhPWpRk2TV6wlUfg92lw2hHPoFrjKnFBz2+93zxQ0chxBf14Pn+2iyb0O+/wIWIrRITE60dA0JuKIebuSluEHFWAauTGTCHLWsYpGUyKvnXTTLco8D2EmjoopvFJ93+QH/3xkBqXHK5NRcdGdmh7oNUogUesbhHEk2RK2JA0AFeC5CwBgt8IEca2dngrE2edYFZ0g8WwO0FKlXsaeyNtziRk1lg82H3dDovblcHp+PrXA8JcgbOyM2qQk/KI72fsBvQZXL68= adha@ip-10-0-2-188
+
+git:
+  repository: git@github.com:SalesConnection/caction-laravel.git
+  branch: dev
+
+persistence:
+  enabled: true
+  type: ebs
+  ebs:
+    storageClassName: gp2
+    storageRequest: 30Gi
+  efs:
+    storageClassName: devserver-efs
+    fileSystemId: ""
+    createStorageClass: true
+    basePath: /dev
+    subPathPattern: ${.PVC.name}
+    ensureUniqueDirectory: "false"
+    directoryPerms: "0775"
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
+    storageRequest: 5Gi
 
 master_key:
   - name: adha
