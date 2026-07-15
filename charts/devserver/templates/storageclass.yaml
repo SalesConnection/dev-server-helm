@@ -16,3 +16,20 @@ parameters:
 reclaimPolicy: {{ .Values.persistence.efs.reclaimPolicy }}
 volumeBindingMode: {{ .Values.persistence.efs.volumeBindingMode }}
 {{- end }}
+{{- if and .Values.persistence.enabled .Values.persistence.ebs.createStorageClass }}
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.persistence.ebs.storageClassName }}
+  labels:
+    {{- include "devserver.labels" . | nindent 4 }}
+provisioner: ebs.csi.aws.com
+parameters:
+  type: {{ .Values.persistence.ebs.type | default "gp3" | quote }}
+  fsType: {{ .Values.persistence.ebs.fsType | default "ext4" | quote }}
+  encrypted: {{ .Values.persistence.ebs.encrypted | default "true" | quote }}
+reclaimPolicy: {{ .Values.persistence.ebs.reclaimPolicy | default "Retain" }}
+volumeBindingMode: {{ .Values.persistence.ebs.volumeBindingMode | default "WaitForFirstConsumer" }}
+allowVolumeExpansion: {{ .Values.persistence.ebs.allowVolumeExpansion | default true }}
+{{- end }}

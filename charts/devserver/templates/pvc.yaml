@@ -1,18 +1,49 @@
 {{- range .Values.users }}
+{{- if eq $.Values.persistence.type "efs" }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "devserver.pvcName" (dict "root" $ "user" .) }}
+  name: {{ .name }}
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
 spec: 
   accessModes:
-    {{- if eq $.Values.persistence.type "efs" }}
     - ReadWriteMany
-    {{- else }}
-    - ReadWriteOnce
-    {{- end }}
-  storageClassName: {{ include "devserver.storageClassName" $ }}
+  storageClassName: {{ $.Values.persistence.efs.storageClassName }}
   resources: 
     requests:
-      storage: {{ include "devserver.storageRequest" (dict "root" $ "user" .) }}
+      storage: {{ $.Values.persistence.efs.storageRequest | default "5Gi" }}
 ---
+{{- if $.Values.persistence.ebs.createAlongsideEfs }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name }}-ebs
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ $.Values.persistence.ebs.storageClassName | default "gp2" }}
+  resources:
+    requests:
+      storage: {{ .storage | default $.Values.persistence.ebs.storageRequest | default "30Gi" }}
+---
+{{- end }}
+{{- else }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ .name }}-ebs
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ $.Values.persistence.ebs.storageClassName | default "gp2" }}
+  resources:
+    requests:
+      storage: {{ .storage | default $.Values.persistence.ebs.storageRequest | default "30Gi" }}
+---
+{{- end }}
 {{- end }}

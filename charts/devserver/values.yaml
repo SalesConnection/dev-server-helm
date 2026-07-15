@@ -21,6 +21,14 @@ persistence:
   ebs:
     storageClassName: gp2
     storageRequest: 30Gi
+    createStorageClass: false
+    createAlongsideEfs: false
+    type: gp3
+    fsType: ext4
+    encrypted: "true"
+    reclaimPolicy: Retain
+    volumeBindingMode: WaitForFirstConsumer
+    allowVolumeExpansion: true
   efs:
     storageClassName: devserver-efs
     fileSystemId: ""
