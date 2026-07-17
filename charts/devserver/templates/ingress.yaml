@@ -4,6 +4,7 @@
 
 {{- range $user := .Values.users }}
 {{- $userName := .name -}}
+{{- $hostName := .hostname | default .name -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -22,14 +23,14 @@ spec:
     {{- range $.Values.ingress.tls }}
     - hosts:
         {{- range .hosts }}
-        - "{{ $user.name }}.{{ . }}"
+        - "{{ $hostName }}.{{ . }}"
         {{- end }}
-      secretName: {{ .secretName }}-{{ $user.name }}
+      secretName: {{ .secretName }}-{{ $hostName }}
     {{- end }}
   {{- end }}
   rules:
     {{- range $.Values.ingress.hosts }}
-    - host: "{{ $user.name }}.{{ .host }}"
+    - host: "{{ $hostName }}.{{ .host }}"
       http:
         paths:
           {{- range .paths }}
