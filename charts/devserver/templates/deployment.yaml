@@ -106,6 +106,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if $.Values.topologySpread.enabled }}
       topologySpreadConstraints:
         - maxSkew: {{ $.Values.topologySpread.maxSkew | default 2 }}
           topologyKey: kubernetes.io/hostname
@@ -113,5 +114,6 @@ spec:
           labelSelector:
             matchLabels:
               service: devserver
+      {{- end }}
 ---
 {{- end }}

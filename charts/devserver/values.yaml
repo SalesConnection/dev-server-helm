@@ -113,4 +113,5 @@ tolerations: []
 affinity: {}
 
 topologySpread:
+  enabled: true
   maxSkew: 2
